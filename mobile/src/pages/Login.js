@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, StyleSheet, AsyncStorage} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, StyleSheet, AsyncStorage, Image} from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
-
+import Logo from '../public/img/app.png'
+import Loading from '../components/Loading';
 import { StackActions, NavigationActions} from 'react-navigation';
 
 export default class Login extends Component {
@@ -15,7 +15,7 @@ export default class Login extends Component {
     };
 
     async componentDidMount() {
-        const username = await AsyncStorage.getItem('GoTwitter:username');
+        const username = await AsyncStorage.getItem('@GoTwitter:username');
         
         if(username) {
             this.navigateToTimeLine();
@@ -28,7 +28,7 @@ export default class Login extends Component {
         if(!username.length) return;
 
         await AsyncStorage.setItem('@GoTwitter:username', username);
-
+        
         this.navigateToTimeLine();
     };
 
@@ -51,7 +51,10 @@ export default class Login extends Component {
         return (
             <KeyboardAvoidingView style={styles.container}>
                 <View style={styles.content}>
-                    <Icon name="twitter" size={64} color="#4BB0EE" />
+                    <Image
+                        style={styles.imageLogo}
+                        source={Logo}
+                    />
                     <TextInput
                         style={styles.input}
                         placeholder="Nome de usuário"
@@ -80,6 +83,11 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       alignItems: "center",
       padding: 30
+    },
+
+    imageLogo: {
+        width: 200,
+        height: 200,
     },
   
     input: {
